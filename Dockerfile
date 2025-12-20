@@ -84,7 +84,8 @@ RUN echo '#!/bin/bash' > /start.sh && \
     echo 'echo "All services started. Waiting for PetClinic process..."' >> /start.sh && \
     echo 'wait $PETCLINIC_PID' >> /start.sh && \
     chmod +x /start.sh
-COPY apis/petclinic/entrypoint.sh /entrypoint.sh
+
+COPY ./apis/pet-clinic/entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
