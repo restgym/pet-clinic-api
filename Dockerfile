@@ -2,7 +2,7 @@
 FROM ubuntu:22.04
 
 # Environment configuration
-ENV API=petclinic
+ENV API=pet-clinic
 ENV TOOL=${TOOL:-manual}
 ENV RUN=${RUN:-1}
 ENV DEBIAN_FRONTEND=noninteractive
@@ -29,19 +29,16 @@ RUN apt-get update && \
 RUN pip3 install mitmproxy
 
 # Copy API application
-COPY apis/petclinic/spring-petclinic-rest.jar /api/spring-petclinic-rest.jar
+COPY ./apis/pet-clinic/spring-petclinic-rest.jar /api/spring-petclinic-rest.jar
 
 # Copy classes for JaCoCo coverage analysis
-COPY apis/petclinic/classes/ /api/classes/
+COPY ./apis/pet-clinic/classes/ /api/classes/
 
 # Copy database initialization files (H2 schema and data)
-COPY apis/petclinic/database/ /api/database/
-
-# Copy OpenAPI specifications for test generation
-COPY apis/petclinic/specifications/ /api/specifications/
+COPY ./apis/pet-clinic/database/ /api/database/
 
 # Copy infrastructure tools from common RESTgym infrastructure
-COPY apis/infrastructure/ /infrastructure/
+COPY ./infrastructure/ /infrastructure/
 
 # Expose RESTgym standard ports
 # 9090: mitmproxy reverse proxy (API access)
