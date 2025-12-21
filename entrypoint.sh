@@ -8,7 +8,7 @@ sh /infrastructure/jacoco/collect-coverage-interval.sh &
 JACOCO_PID=$!
 
 echo "Starting PetClinic API in background..."
-java -javaagent:/infrastructure/jacoco/org.jacoco.agent-0.8.7-runtime.jar=includes=org.springframework.samples.petclinic.*,output=tcpserver,port=12345,address=* -Dfile.encoding=UTF-8 -Dserver.port=8080 -Dspring.profiles.active=h2,spring-data-jpa -jar /api/spring-petclinic-rest.jar > /results/$API/$TOOL/$RUN/logs/petclinic-stdout.log 2> /results/$API/$TOOL/$RUN/logs/petclinic-stderr.log &
+java -javaagent:/infrastructure/jacoco/org.jacoco.agent-0.8.7-runtime.jar=includes=org.springframework.samples.petclinic.*,output=tcpserver,port=12345,address=* -Dfile.encoding=UTF-8 -Dserver.port=8080 -Dspring.profiles.active=h2,spring-data-jpa -jar /api/spring-petclinic-rest.jar &
 PETCLINIC_PID=$!
 
 echo "Waiting for API to start..."
@@ -25,7 +25,7 @@ for i in {1..60}; do
 done
 
 echo "Starting mitmproxy..."
-mitmdump -p 9090 --mode reverse:http://localhost:8080/ -s /infrastructure/mitmproxy/store-interactions.py > /results/$API/$TOOL/$RUN/logs/mitmproxy.log 2>&1 &
+mitmdump -p 9090 --mode reverse:http://localhost:8080/ -s /infrastructure/mitmproxy/store-interactions.py &
 MITM_PID=$!
 
 echo "Waiting for mitmproxy to start..."

@@ -18,15 +18,10 @@ RUN apt-get update && \
         curl \
         wget \
         netcat \
-        sqlite3 \
-        python3 \
-        python3-pip && \
+        mitmproxy && \
     apt-get -y autoremove && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# Install mitmproxy
-RUN pip3 install mitmproxy
 
 # Copy API application
 COPY ./apis/pet-clinic/spring-petclinic-rest.jar /api/spring-petclinic-rest.jar
