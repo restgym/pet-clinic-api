@@ -11,7 +11,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost:8080/petclinic/api",
+      "url": "http://localhost:8080",
       "description": "Generated server url"
     }
   ],
@@ -50,7 +50,7 @@
     }
   ],
   "paths": {
-    "/oops": {
+    "/petclinic/api/oops": {
       "get": {
         "tags": [
           "failing"
@@ -101,7 +101,7 @@
         }
       }
     },
-    "/owners": {
+    "/petclinic/api/owners": {
       "post": {
         "tags": [
           "owner"
@@ -218,7 +218,7 @@
         }
       }
     },
-    "/owners/{ownerId}": {
+    "/petclinic/api/owners/{ownerId}": {
       "get": {
         "tags": [
           "owner"
@@ -461,7 +461,7 @@
         }
       }
     },
-    "/owners/{ownerId}/pets": {
+    "/petclinic/api/owners/{ownerId}/pets": {
       "post": {
         "tags": [
           "pet"
@@ -538,7 +538,7 @@
         }
       }
     },
-    "/owners/{ownerId}/pets/{petId}": {
+    "/petclinic/api/owners/{ownerId}/pets/{petId}": {
       "get": {
         "tags": [
           "pet"
@@ -715,7 +715,7 @@
         }
       }
     },
-    "/owners/{ownerId}/pets/{petId}/visits": {
+    "/petclinic/api/owners/{ownerId}/pets/{petId}/visits": {
       "post": {
         "tags": [
           "visit"
@@ -804,7 +804,7 @@
         }
       }
     },
-    "/pettypes": {
+    "/petclinic/api/pettypes": {
       "get": {
         "tags": [
           "pettypes"
@@ -938,7 +938,7 @@
         }
       }
     },
-    "/pettypes/{petTypeId}": {
+    "/petclinic/api/pettypes/{petTypeId}": {
       "get": {
         "tags": [
           "pettypes"
@@ -1200,7 +1200,7 @@
         }
       }
     },
-    "/pets": {
+    "/petclinic/api/pets": {
       "get": {
         "tags": [
           "pet"
@@ -1254,7 +1254,7 @@
         }
       }
     },
-    "/pets/{petId}": {
+    "/petclinic/api/pets/{petId}": {
       "get": {
         "tags": [
           "pet"
@@ -1516,7 +1516,7 @@
         }
       }
     },
-    "/visits": {
+    "/petclinic/api/visits": {
       "get": {
         "tags": [
           "visit"
@@ -1650,7 +1650,7 @@
         }
       }
     },
-    "/visits/{visitId}": {
+    "/petclinic/api/visits/{visitId}": {
       "get": {
         "tags": [
           "visit"
@@ -1912,7 +1912,7 @@
         }
       }
     },
-    "/specialties": {
+    "/petclinic/api/specialties": {
       "get": {
         "tags": [
           "specialty"
@@ -2046,7 +2046,7 @@
         }
       }
     },
-    "/specialties/{specialtyId}": {
+    "/petclinic/api/specialties/{specialtyId}": {
       "get": {
         "tags": [
           "specialty"
@@ -2308,7 +2308,7 @@
         }
       }
     },
-    "/vets": {
+    "/petclinic/api/vets": {
       "get": {
         "tags": [
           "vet"
@@ -2442,7 +2442,7 @@
         }
       }
     },
-    "/vets/{vetId}": {
+    "/petclinic/api/vets/{vetId}": {
       "get": {
         "tags": [
           "vet"
@@ -2704,7 +2704,7 @@
         }
       }
     },
-    "/users": {
+    "/petclinic/api/users": {
       "post": {
         "tags": [
           "user"
