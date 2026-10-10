@@ -1,0 +1,21 @@
+# RESTgym API manifest
+manifest_version: 1
+
+id: pet-clinic
+name: Spring PetClinic REST
+version: "3.4.3"                  # Implementation-Version of spring-petclinic-rest.jar
+description: REST version of the Spring PetClinic sample application (veterinary clinic).
+domain: healthcare
+license: Apache-2.0
+repository: https://github.com/spring-petclinic/spring-petclinic-rest
+technology:
+  language: java
+  framework: Spring Boot          # 3.5.7
+  database: H2
+
+authentication: none
+
+server_errors:
+  similarity_threshold: 0.7
+  preprocessing:
+    - json_fields: {fields: [title, detail], separator: " ", min_length: 5}
