@@ -13,6 +13,12 @@ technology:
   framework: Spring Boot          # 3.5.7
   database: H2
 
+original_specification:           # OpenAPI 3.0.1, written by the authors (the code is generated from it): src/main/resources/openapi.yml
+  version: "3.0"
+  format: yaml
+  origin: manual
+  created_by: Spring PetClinic developers
+
 authentication: none
 
 server_errors:
