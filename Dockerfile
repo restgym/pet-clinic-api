@@ -35,7 +35,7 @@ COPY ./apis/pet-clinic/database/ /api/database/
 # Copy infrastructure tools from common RESTgym infrastructure
 COPY ./infrastructure/ /infrastructure/
 
+# Startup script: starts the API, the collection of code coverage and the proxy (see infrastructure/api/restgym-api.sh)
 COPY ./apis/pet-clinic/entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["bash", "/entrypoint.sh"]
