@@ -1,38 +1,9 @@
-# Spring PetClinic REST API - RESTgym Container
-FROM ubuntu:22.04
+# Spring PetClinic REST
+# Base image: Ubuntu 22.04, Java 17 (headless JRE), mitmproxy and the RESTgym infrastructure (see infrastructure/api/Dockerfile)
+FROM restgym-api-base:java17
 
-# Environment configuration
-ENV DEBIAN_FRONTEND=noninteractive
+# The API: its executable, the classes for code coverage, its specifications and scripts
+COPY ./apis/pet-clinic/ /api/
 
-# Create RESTgym directories
-RUN mkdir -p /api /infrastructure /results
-
-# Install required packages
-RUN apt-get update && \
-    apt-get -y upgrade && \
-    apt-get -y install \
-        openjdk-17-jdk \
-        curl \
-        wget \
-        netcat \
-        mitmproxy && \
-    apt-get -y autoremove && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy API application
-COPY ./apis/pet-clinic/spring-petclinic-rest.jar /api/spring-petclinic-rest.jar
-
-# Copy classes for JaCoCo coverage analysis
-COPY ./apis/pet-clinic/classes/ /api/classes/
-
-# Copy database initialization files (H2 schema and data)
-COPY ./apis/pet-clinic/database/ /api/database/
-
-# Copy infrastructure tools from common RESTgym infrastructure
-COPY ./infrastructure/ /infrastructure/
-
-# Startup script: starts the API, the collection of code coverage and the proxy (see infrastructure/api/restgym-api.sh)
-COPY ./apis/pet-clinic/entrypoint.sh /entrypoint.sh
-
-ENTRYPOINT ["bash", "/entrypoint.sh"]
+# Startup script (in /api): starts the API, the collection of code coverage and the proxy (see infrastructure/api/restgym-api.sh)
+ENTRYPOINT ["bash", "/api/entrypoint.sh"]
