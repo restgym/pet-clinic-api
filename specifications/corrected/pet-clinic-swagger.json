@@ -1,0 +1,2678 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "Spring PetClinic",
+    "description": "Spring PetClinic Sample Application.",
+    "license": {
+      "name": "Apache 2.0",
+      "url": "https://www.apache.org/licenses/LICENSE-2.0"
+    },
+    "version": "1.0"
+  },
+  "host": "localhost:8080",
+  "schemes": [
+    "http"
+  ],
+  "paths": {
+    "/petclinic/api/owners": {
+      "post": {
+        "tags": [
+          "owner"
+        ],
+        "summary": "Adds a pet owner",
+        "description": "Records the details of a new pet owner.",
+        "operationId": "addOwner",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet owner",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OwnerFields"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The pet owner was successfully added.",
+            "schema": {
+              "$ref": "#/definitions/Owner"
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "owner"
+        ],
+        "summary": "Lists pet owners",
+        "description": "Returns an array of pet owners.",
+        "operationId": "listOwners",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "name": "lastName",
+            "description": "Last name.",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner details found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Owner"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/owners/{ownerId}": {
+      "get": {
+        "tags": [
+          "owner"
+        ],
+        "summary": "Get a pet owner by ID",
+        "description": "Returns the pet owner or a 404 error.",
+        "operationId": "getOwner",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Owner"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Owner not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "owner"
+        ],
+        "summary": "Update a pet owner's details",
+        "description": "Updates the pet owner record with the specified details.",
+        "operationId": "updateOwner",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet owner details to use for the update.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/OwnerFields"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Update successful.",
+            "schema": {
+              "$ref": "#/definitions/Owner"
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Owner not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "owner"
+        ],
+        "summary": "Delete an owner by ID",
+        "description": "Returns the owner or a 404 error.",
+        "operationId": "deleteOwner",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Owner details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Owner"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Owner  not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/owners/{ownerId}/pets": {
+      "post": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Adds a pet to an owner",
+        "description": "Records the details of a new pet.",
+        "operationId": "addPetToOwner",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The details of the new pet.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetFields"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The pet was successfully added.",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet or Owner not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/owners/{ownerId}/pets/{petId}": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Get a pet by ID",
+        "description": "Returns the pet or a 404 error.",
+        "operationId": "getOwnersPet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Owner or pet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Update a pet's details",
+        "description": "Updates the pet record with the specified details.",
+        "operationId": "updateOwnersPet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet details to use for the update.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetFields"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Update successful."
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet not found for this owner.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/owners/{ownerId}/pets/{petId}/visits": {
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Adds a vet visit",
+        "description": "Records the details of a new vet visit.",
+        "operationId": "addVisitToOwner",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "ownerId",
+            "description": "The ID of the pet owner.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The details of the new vet visit.",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VisitFields"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The vet visit was successfully added.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet not found for this owner.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/pettypes": {
+      "get": {
+        "tags": [
+          "pettypes"
+        ],
+        "summary": "Lists pet types",
+        "description": "Returns an array of pet types.",
+        "operationId": "listPetTypes",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet types found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PetType"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "pettypes"
+        ],
+        "summary": "Create a pet type",
+        "description": "Creates a pet type .",
+        "operationId": "addPetType",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet type",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetTypeFields"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet type created successfully.",
+            "schema": {
+              "$ref": "#/definitions/PetType"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet Type not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/pettypes/{petTypeId}": {
+      "get": {
+        "tags": [
+          "pettypes"
+        ],
+        "summary": "Get a pet type by ID",
+        "description": "Returns the pet type or a 404 error.",
+        "operationId": "getPetType",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petTypeId",
+            "description": "The ID of the pet type.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet type details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/PetType"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet Type not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "pettypes"
+        ],
+        "summary": "Update a pet type by ID",
+        "description": "Returns the pet type or a 404 error.",
+        "operationId": "updatePetType",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petTypeId",
+            "description": "The ID of the pet type.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet type",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PetType"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet type details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/PetType"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet Type not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "pettypes"
+        ],
+        "summary": "Delete a pet type by ID",
+        "description": "Returns the pet type or a 404 error.",
+        "operationId": "deletePetType",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petTypeId",
+            "description": "The ID of the pet type.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet type details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/PetType"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet type not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/pets": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Lists pet",
+        "description": "Returns an array of pet .",
+        "operationId": "listPets",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet types found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/pets/{petId}": {
+      "get": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Get a pet by ID",
+        "description": "Returns the pet  or a 404 error.",
+        "operationId": "getPet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Update a pet by ID",
+        "description": "Returns the pet or a 404 error.",
+        "operationId": "updatePet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "pet"
+        ],
+        "summary": "Delete a pet by ID",
+        "description": "Returns the pet or a 404 error.",
+        "operationId": "deletePet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "petId",
+            "description": "The ID of the pet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Pet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Pet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/visits": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Lists visits",
+        "description": "Returns an array of visit .",
+        "operationId": "listVisits",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "visits found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Visit"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Create a visit",
+        "description": "Creates a visit.",
+        "operationId": "addVisit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The visit",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "visit created successfully.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Visit not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/visits/{visitId}": {
+      "get": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Get a visit by ID",
+        "description": "Returns the visit or a 404 error.",
+        "operationId": "getVisit",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "visitId",
+            "description": "The ID of the visit.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Visit details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Visit not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Update a visit by ID",
+        "description": "Returns the visit or a 404 error.",
+        "operationId": "updateVisit",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "visitId",
+            "description": "The ID of the visit.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The visit",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/VisitFields"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Visit details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Visit not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "visit"
+        ],
+        "summary": "Delete a visit by ID",
+        "description": "Returns the visit or a 404 error.",
+        "operationId": "deleteVisit",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "visitId",
+            "description": "The ID of the visit.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Visit details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Visit"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Visit not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/specialties": {
+      "get": {
+        "tags": [
+          "specialty"
+        ],
+        "summary": "Lists specialties",
+        "description": "Returns an array of specialty .",
+        "operationId": "listSpecialties",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialties found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Specialty"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "specialty"
+        ],
+        "summary": "Create a specialty",
+        "description": "Creates a specialty .",
+        "operationId": "addSpecialty",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The specialty",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialty created successfully.",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Specialty not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/specialties/{specialtyId}": {
+      "get": {
+        "tags": [
+          "specialty"
+        ],
+        "summary": "Get a specialty by ID",
+        "description": "Returns the specialty or a 404 error.",
+        "operationId": "getSpecialty",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "specialtyId",
+            "description": "The ID of the speciality.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialty details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Specialty not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "specialty"
+        ],
+        "summary": "Update a specialty by ID",
+        "description": "Returns the specialty or a 404 error.",
+        "operationId": "updateSpecialty",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "specialtyId",
+            "description": "The ID of the specialty.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The pet",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialty details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Specialty not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "specialty"
+        ],
+        "summary": "Delete a specialty by ID",
+        "description": "Returns the specialty or a 404 error.",
+        "operationId": "deleteSpecialty",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "specialtyId",
+            "description": "The ID of the specialty.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Specialty details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Specialty not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/vets": {
+      "get": {
+        "tags": [
+          "vet"
+        ],
+        "summary": "Lists vets",
+        "description": "Returns an array of vets.",
+        "operationId": "listVets",
+        "produces": [
+          "application/json"
+        ],
+        "responses": {
+          "200": {
+            "description": "Vets found and returned.",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Vet"
+              }
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "vet"
+        ],
+        "summary": "Create a Vet",
+        "description": "Creates a vet .",
+        "operationId": "addVet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The vet",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vet created successfully.",
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Vet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/vets/{vetId}": {
+      "get": {
+        "tags": [
+          "vet"
+        ],
+        "summary": "Get a vet by ID",
+        "description": "Returns the vet or a 404 error.",
+        "operationId": "getVet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vetId",
+            "description": "The ID of the vet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Vet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "vet"
+        ],
+        "summary": "Update a vet  by ID",
+        "description": "Returns the vet or a 404 error.",
+        "operationId": "updateVet",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vetId",
+            "description": "The ID of the vet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The vet",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pet type details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Vet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "vet"
+        ],
+        "summary": "Delete a vet by ID",
+        "description": "Returns the vet or a 404 error.",
+        "operationId": "deleteVet",
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vetId",
+            "description": "The ID of the vet.",
+            "required": true,
+            "type": "integer",
+            "format": "int32",
+            "minimum": 0
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Vet details found and returned.",
+            "schema": {
+              "$ref": "#/definitions/Vet"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "Vet not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    },
+    "/petclinic/api/users": {
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "summary": "Create a user",
+        "description": "Creates a user.",
+        "operationId": "addUser",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "The user",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/User"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User created successfully.",
+            "schema": {
+              "$ref": "#/definitions/User"
+            },
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "304": {
+            "description": "Not modified.",
+            "headers": {
+              "ETag": {
+                "description": "An ID for this version of the response.",
+                "type": "string"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "404": {
+            "description": "User not found.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          },
+          "500": {
+            "description": "Server error.",
+            "schema": {
+              "$ref": "#/definitions/ProblemDetail"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "ProblemDetail": {
+      "type": "object",
+      "description": "The schema for all error responses.",
+      "title": "Problem Detail",
+      "required": [
+        "type",
+        "title",
+        "status",
+        "detail",
+        "timestamp",
+        "schemaValidationErrors"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "Full URL that originated the error response.",
+          "format": "uri",
+          "title": "Type",
+          "example": "http://localhost:9966/petclinic/api/owner"
+        },
+        "title": {
+          "type": "string",
+          "description": "The short error title.",
+          "title": "Title",
+          "example": "NoResourceFoundException"
+        },
+        "status": {
+          "type": "integer",
+          "description": "HTTP status code",
+          "format": "int32",
+          "title": "Status",
+          "maximum": 600,
+          "exclusiveMaximum": true,
+          "minimum": 400,
+          "example": 500
+        },
+        "detail": {
+          "type": "string",
+          "description": "The long error message.",
+          "title": "Detail",
+          "example": "No static resource api/owner."
+        },
+        "timestamp": {
+          "type": "string",
+          "description": "The time the error occurred.",
+          "format": "date-time",
+          "title": "Timestamp",
+          "example": "2024-11-23T13:59:21.3820407Z"
+        },
+        "schemaValidationErrors": {
+          "type": "array",
+          "description": "Validation errors against the OpenAPI schema.",
+          "title": "Schema validation errors",
+          "items": {
+            "$ref": "#/definitions/ValidationMessage"
+          }
+        }
+      }
+    },
+    "ValidationMessage": {
+      "type": "object",
+      "description": "Messages describing a validation error.",
+      "title": "Validation message",
+      "required": [
+        "message"
+      ],
+      "properties": {
+        "message": {
+          "type": "string",
+          "description": "The validation message.",
+          "title": "Message",
+          "example": "[Path '/lastName'] Instance type (null) does not match any allowed primitive type (allowed: ['string'])"
+        }
+      }
+    },
+    "Specialty": {
+      "type": "object",
+      "description": "Fields of specialty of vets.",
+      "title": "Specialty",
+      "required": [
+        "id",
+        "name"
+      ],
+      "properties": {
+        "id": {
+          "type": "integer",
+          "description": "The ID of the specialty.",
+          "format": "int32",
+          "title": "ID",
+          "minimum": 0,
+          "example": 1
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the specialty.",
+          "title": "Name",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "radiology"
+        }
+      }
+    },
+    "OwnerFields": {
+      "type": "object",
+      "description": "Editable fields of a pet owner.",
+      "title": "Owner fields",
+      "required": [
+        "firstName",
+        "lastName",
+        "address",
+        "city",
+        "telephone"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the pet owner.",
+          "title": "First name",
+          "maxLength": 30,
+          "minLength": 1,
+          "pattern": "^[\\p{L}]+([ '-][\\p{L}]+){0,2}$",
+          "example": "George"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the pet owner.",
+          "title": "Last name",
+          "maxLength": 30,
+          "minLength": 1,
+          "pattern": "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$",
+          "example": "Franklin"
+        },
+        "address": {
+          "type": "string",
+          "description": "The postal address of the pet owner.",
+          "title": "Address",
+          "maxLength": 255,
+          "minLength": 1,
+          "example": "110 W. Liberty St."
+        },
+        "city": {
+          "type": "string",
+          "description": "The city of the pet owner.",
+          "title": "City",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "Madison"
+        },
+        "telephone": {
+          "type": "string",
+          "description": "The telephone number of the pet owner.",
+          "title": "Telephone number",
+          "maxLength": 20,
+          "minLength": 1,
+          "pattern": "^[0-9]*$",
+          "example": "6085551023"
+        }
+      }
+    },
+    "Owner": {
+      "description": "A pet owner.",
+      "title": "Owner",
+      "allOf": [
+        {
+          "$ref": "#/definitions/OwnerFields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "pets"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the pet owner.",
+              "format": "int32",
+              "title": "ID",
+              "minimum": 0,
+              "readOnly": true,
+              "example": 1
+            },
+            "pets": {
+              "type": "array",
+              "description": "The pets owned by this individual including any booked vet visits.",
+              "title": "Pets",
+              "items": {
+                "$ref": "#/definitions/Pet"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "PetFields": {
+      "type": "object",
+      "description": "Editable fields of a pet.",
+      "title": "Pet fields",
+      "required": [
+        "name",
+        "birthDate",
+        "type"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the pet.",
+          "title": "Name",
+          "maxLength": 30,
+          "example": "Leo"
+        },
+        "birthDate": {
+          "type": "string",
+          "description": "The date of birth of the pet.",
+          "format": "date",
+          "title": "Birth date",
+          "example": "2010-09-07"
+        },
+        "type": {
+          "$ref": "#/definitions/PetType"
+        }
+      }
+    },
+    "Pet": {
+      "description": "A pet.",
+      "title": "Pet",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PetFields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "type",
+            "visits"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the pet.",
+              "format": "int32",
+              "title": "ID",
+              "minimum": 0,
+              "example": 1
+            },
+            "ownerId": {
+              "type": "integer",
+              "description": "The ID of the pet's owner.",
+              "format": "int32",
+              "title": "Owner ID",
+              "minimum": 0,
+              "readOnly": true,
+              "example": 1
+            },
+            "visits": {
+              "type": "array",
+              "description": "Vet visit bookings for this pet.",
+              "title": "Visits",
+              "items": {
+                "$ref": "#/definitions/Visit"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "VetFields": {
+      "type": "object",
+      "description": "Editable fields of a veterinarian.",
+      "title": "VetFields",
+      "required": [
+        "firstName",
+        "lastName",
+        "specialties"
+      ],
+      "properties": {
+        "firstName": {
+          "type": "string",
+          "description": "The first name of the vet.",
+          "title": "First name",
+          "maxLength": 30,
+          "minLength": 1,
+          "pattern": "^[\\p{L}]+([ '-][\\p{L}]+){0,2}$",
+          "example": "James"
+        },
+        "lastName": {
+          "type": "string",
+          "description": "The last name of the vet.",
+          "title": "Last name",
+          "maxLength": 30,
+          "minLength": 1,
+          "pattern": "^[\\p{L}]+([ '-][\\p{L}]+){0,2}\\.?$",
+          "example": "Carter"
+        },
+        "specialties": {
+          "type": "array",
+          "description": "The specialties of the vet.",
+          "title": "Specialties",
+          "items": {
+            "$ref": "#/definitions/Specialty"
+          }
+        }
+      }
+    },
+    "Vet": {
+      "description": "A veterinarian.",
+      "title": "Vet",
+      "required": [
+        "id",
+        "firstName",
+        "lastName",
+        "specialties"
+      ],
+      "allOf": [
+        {
+          "$ref": "#/definitions/VetFields"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the vet.",
+              "format": "int32",
+              "title": "ID",
+              "minimum": 0,
+              "readOnly": true,
+              "example": 1
+            }
+          }
+        }
+      ]
+    },
+    "VisitFields": {
+      "type": "object",
+      "description": "Editable fields of a vet visit.",
+      "title": "Visit fields",
+      "required": [
+        "description"
+      ],
+      "properties": {
+        "date": {
+          "type": "string",
+          "description": "The date of the visit.",
+          "format": "date",
+          "title": "Date",
+          "example": "2013-01-01"
+        },
+        "description": {
+          "type": "string",
+          "description": "The description for the visit.",
+          "title": "Description",
+          "maxLength": 255,
+          "minLength": 1,
+          "example": "rabies shot"
+        }
+      }
+    },
+    "Visit": {
+      "description": "A booking for a vet visit.",
+      "title": "Visit",
+      "allOf": [
+        {
+          "$ref": "#/definitions/VisitFields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id",
+            "petId"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the visit.",
+              "format": "int32",
+              "title": "ID",
+              "minimum": 0,
+              "example": 1
+            },
+            "petId": {
+              "type": "integer",
+              "description": "The ID of the pet.",
+              "format": "int32",
+              "title": "Pet ID",
+              "minimum": 0,
+              "example": 1
+            }
+          }
+        }
+      ]
+    },
+    "PetTypeFields": {
+      "type": "object",
+      "description": "Editable fields of a pet type.",
+      "title": "PetType fields",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name of the pet type.",
+          "title": "Name",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "cat"
+        }
+      }
+    },
+    "PetType": {
+      "description": "A pet type.",
+      "title": "Pet type",
+      "allOf": [
+        {
+          "$ref": "#/definitions/PetTypeFields"
+        },
+        {
+          "type": "object",
+          "required": [
+            "id"
+          ],
+          "properties": {
+            "id": {
+              "type": "integer",
+              "description": "The ID of the pet type.",
+              "format": "int32",
+              "title": "ID",
+              "minimum": 0,
+              "example": 1
+            }
+          }
+        }
+      ]
+    },
+    "User": {
+      "type": "object",
+      "description": "An user.",
+      "title": "User",
+      "required": [
+        "username"
+      ],
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The username",
+          "title": "username",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "john.doe"
+        },
+        "password": {
+          "type": "string",
+          "description": "The password",
+          "title": "Password",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "1234abc"
+        },
+        "enabled": {
+          "type": "boolean",
+          "description": "Indicates if the user is enabled",
+          "title": "enabled",
+          "example": true
+        },
+        "roles": {
+          "type": "array",
+          "description": "The roles of an user",
+          "title": "Roles",
+          "items": {
+            "$ref": "#/definitions/Role"
+          }
+        }
+      }
+    },
+    "Role": {
+      "type": "object",
+      "description": "A role.",
+      "title": "Role",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The role's name",
+          "title": "name",
+          "maxLength": 80,
+          "minLength": 1,
+          "example": "admin"
+        }
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "failing",
+      "description": "Endpoint which always returns an error."
+    },
+    {
+      "name": "owner",
+      "description": "Endpoints related to pet owners."
+    },
+    {
+      "name": "user",
+      "description": "Endpoints related to users."
+    },
+    {
+      "name": "pet",
+      "description": "Endpoints related to pets."
+    },
+    {
+      "name": "vet",
+      "description": "Endpoints related to vets."
+    },
+    {
+      "name": "visit",
+      "description": "Endpoints related to vet visits."
+    },
+    {
+      "name": "pettypes",
+      "description": "Endpoints related to pet types."
+    },
+    {
+      "name": "specialty",
+      "description": "Endpoints related to vet specialties."
+    }
+  ]
+}
