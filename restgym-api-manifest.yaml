@@ -25,30 +25,36 @@ authentication: none
 
 # Errors are JSON: {type, title, status, detail, instance, timestamp} (the title is the exception), without detail
 # for some exceptions (e.g., NullPointerException: the endpoint is kept instead), or the default errors of Spring
-# {timestamp, status, error, path}. The values of the request repeated in the messages of Spring and Jackson are
-# replaced (inputs, content types, JSON tokens and characters, numbers), and the URL of a request with no endpoint and
-# the request method are dropped, so that each error message is one group. Threshold: different messages can differ
-# in a single word (e.g., the parameter ownerId or petId), up to 0.917 similar
+# {timestamp, status, error, path}. Only the values sent by the tools repeated in the messages of Spring and Jackson
+# are replaced (inputs, quoted content types and mime types, the characters, tokens, escapes and bytes of invalid JSON,
+# true and false, dates, numbers, the URL of a request with no endpoint): any other difference, such as the type of
+# the value sent, the structure of invalid JSON, the request method or a missing Content-Type, makes a different
+# failure.
+# Threshold: just above the highest similarity between two different failures in the runs of rest-league-2027-official,
+# 0.938 (an invalid value of two fields of a date, e.g., MinuteOfHour or MonthOfYear)
 server_errors:
-  similarity_threshold: 0.95
+  similarity_threshold: 0.94
   preprocessing:
     - json_fields: {fields: [title, detail], separator: ' ', min_length: 5}
     - json_fields: {fields: [title, instance], separator: ' ', min_length: 5}
     - json_fields: {fields: [error, path], separator: ' ', min_length: 5}
-    - replace: {pattern: '(?s)No static resource .*', with: 'No static resource'}
-    - replace: {pattern: 'Request method ''[^'']*'' is not supported', with: 'Request method <value> is not supported'}
-    - replace: {pattern: 'Content-Type(?: ''[^'']*'')? is not supported', with: 'Content-Type <value> is not supported'}
-    - replace: {pattern: '(?s)Invalid mime type ".*', with: 'Invalid mime type <value>'}
+    - replace: {pattern: '(?s)No static resource .*', with: 'No static resource <value>'}
+    - replace: {pattern: 'Content-Type ''[^'']*'' is not supported', with: 'Content-Type <value> is not supported'}
+    - replace: {pattern: '(?s)Invalid mime type ".*?"(?=: )', with: 'Invalid mime type <value>'}
+    - replace: {pattern: '(unsupported charset) ''[^'']*''', with: '\1 <value>'}
     - replace: {pattern: '(?s)For input string: .*', with: 'For input string: <value>'}
-    - replace: {pattern: '(?s)(from String) ".*?"(?=: (?:not a valid|Failed to deserialize|only "true" or "false"|not one of the values|not a valid representation))', with: '\1 <value>'}
+    - replace: {pattern: '(?s)(from String) ".*?"(?=: (?:not a valid|Failed to deserialize|only "true" or "false"|not one of the values|not a valid representation|Overflow))', with: '\1 <value>'}
+    - replace: {pattern: '(?s)(Overflow: numeric value) \(.*?\)(?= out of range)', with: '\1 <value>'}
     - replace: {pattern: '(?s)(from String value) \(''.*?''\)', with: '\1 (<value>)'}
     - replace: {pattern: '(?s)Text ''.*?'' could not be parsed', with: 'Text <value> could not be parsed'}
-    - replace: {pattern: 'no [\w/]+-argument constructor/factory method to deserialize from [\w-]+ value(?: \(.*?\))?', with: 'no <value>-argument constructor/factory method to deserialize from <value>'}
-    - replace: {pattern: 'from [\w-]+ value \(token `[^`]*`\)', with: 'from <value>'}
-    - replace: {pattern: '(?s)Unexpected character \(''.*?'' \(code \d+(?: / 0x[0-9a-fA-F]+)?\)\)', with: 'Unexpected character <value>'}
-    - replace: {pattern: '(?s)Illegal character \(\(CTRL-CHAR, code \d+\)\)', with: 'Illegal character <value>'}
-    - replace: {pattern: '(?s)Unrecognized token ''.*?''', with: 'Unrecognized token <value>'}
+    - replace: {pattern: '(?s)(deserialize from [\w-]+ value) \(.*\)$', with: '\1 (<value>)'}
+    - replace: {pattern: '\bVALUE_(?:TRUE|FALSE)\b', with: 'VALUE_<value>'}
+    - replace: {pattern: '(?s)((?:Unexpected|Illegal(?: unquoted)?) character) \((?:''.{1,2}?'' \(code \d+(?: / 0x[0-9a-fA-F]+)?\)|\(CTRL-CHAR, code \d+\))\)', with: '\1 <value>'}
+    - replace: {pattern: 'Non-standard token ''[^'']*''', with: 'Non-standard token <value>'}
+    - replace: {pattern: '(?s)Unrecognized token ''.*?''(?=: was expecting)', with: 'Unrecognized token <value>'}
     - replace: {pattern: '(Invalid UTF-\d+ \w+ byte) 0x[0-9a-fA-F]+', with: '\1 <value>'}
     - replace: {pattern: '(?s)Numeric value \(.*?\) out of range', with: 'Numeric value <value> out of range'}
+    - replace: {pattern: '(?s)Unrecognized character escape ''.{1,2}?'' \(code \d+\)', with: 'Unrecognized character escape <value>'}
+    - replace: {pattern: '(?s)Invalid date ''[^'']*''', with: 'Invalid date <value>'}
     - mask: [numbers]
     - replace: {pattern: '-<number>', with: '<number>'}
